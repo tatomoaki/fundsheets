@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Claude 
+.claude/
