@@ -35,3 +35,7 @@ htmlcov/
 
 # Uploaded fund factsheets
 uploads/
+
+
+# Scripts 
+scripts/
