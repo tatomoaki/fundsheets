@@ -84,7 +84,7 @@ function App() {
             </div>
           </div>
 
-          <ChatPanel />
+          <ChatPanel fund={view.page === 'fund-detail' ? { id: view.fund.id, name: view.fund.name } : null} />
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Bot, Send, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ChatMarkdown } from '@/components/ChatMarkdown'
 import { cn } from '@/lib/utils'
 
 interface Message {
@@ -10,7 +11,11 @@ interface Message {
   content: string
 }
 
-export function ChatPanel() {
+interface ChatPanelProps {
+  fund: { id: string; name: string } | null
+}
+
+export function ChatPanel({ fund }: ChatPanelProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '0',
@@ -28,7 +33,7 @@ export function ChatPanel() {
 
   async function handleSend() {
     const text = input.trim()
-    if (!text || loading) return
+    if (!text || loading || !fund) return
 
     const userMsg: Message = { id: crypto.randomUUID(), role: 'user', content: text }
     setMessages(prev => [...prev, userMsg])
@@ -39,7 +44,11 @@ export function ChatPanel() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: messages }),
+        body: JSON.stringify({
+          fund_id: fund.id,
+          message: text,
+          history: messages.map(({ role, content }) => ({ role, content })),
+        }),
       })
 
       if (!res.ok) throw new Error('Request failed')
@@ -97,7 +106,7 @@ export function ChatPanel() {
                 ? 'bg-muted text-foreground'
                 : 'bg-primary text-primary-foreground',
             )}>
-              {msg.content}
+              <ChatMarkdown content={msg.content} />
             </div>
           </div>
         ))}
@@ -126,14 +135,14 @@ export function ChatPanel() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about funds..."
+          placeholder={fund ? 'Ask about funds...' : 'Select a fund to start chatting'}
           className="text-sm h-8"
-          disabled={loading}
+          disabled={loading || !fund}
         />
         <Button
           size="icon-sm"
           onClick={handleSend}
-          disabled={!input.trim() || loading}
+          disabled={!input.trim() || loading || !fund}
         >
           <Send className="size-3.5" />
         </Button>
