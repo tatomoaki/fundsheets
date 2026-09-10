@@ -41,11 +41,9 @@ export function AppSidebar({ activePage, onNavChange }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-
-              {/* Funds (collapsible with sub-items) */}
               <Collapsible defaultOpen={fundsOpen} className="group/collapsible">
                 <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
+                  <CollapsibleTrigger>
                     <SidebarMenuButton
                       isActive={activePage === 'Funds'}
                       onClick={() => onNavChange('Funds')}
@@ -53,38 +51,12 @@ export function AppSidebar({ activePage, onNavChange }: AppSidebarProps) {
                     >
                       <TrendingUp />
                       <span>Funds</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
 
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          isActive={activePage === 'FundCompare'}
-                          onClick={() => onNavChange('FundCompare')}
-                        >
-                          <GitCompareArrows className="size-3.5" />
-                          <span>Compare</span>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
+                  
                 </SidebarMenuItem>
               </Collapsible>
-
-              {/* Clients */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activePage === 'Clients'}
-                  onClick={() => onNavChange('Clients')}
-                  tooltip="Clients"
-                >
-                  <Users />
-                  <span>Clients</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
